@@ -82,7 +82,7 @@ namespace Task1
                     form.Add(new StringContent(Path.GetFileName(photos)), "filename");
                     form.Add(new StringContent(metadataJson), "metadata");
 
-                    var response = await client.PostAsync("http://127.0.0.1:8000/update_metadata", form);
+                    var response = await client.PostAsync(Program.BASE_URL+"/update_metadata", form);
                     string serverResponse = await response.Content.ReadAsStringAsync();
 
                     MessageBox.Show(response.IsSuccessStatusCode
@@ -133,7 +133,7 @@ namespace Task1
 
                 using (HttpClient client = new HttpClient())
                 {
-                    string apiUrl = $"http://127.0.0.1:8000/get_metadata_and_detail?filename={filename}";
+                    string apiUrl = $"{Program.BASE_URL}/get_metadata_and_detail?filename={filename}";
                     var response = await client.GetAsync(apiUrl);
 
                     if (response.IsSuccessStatusCode)
@@ -260,7 +260,7 @@ namespace Task1
                     form.Add(new StringContent(path), "path");
                     form.Add(new StringContent(filename), "title");
 
-                    var response = await client.PostAsync("http://127.0.0.1:8000/delete_photo", form);
+                    var response = await client.PostAsync(Program.BASE_URL+"/delete_photo", form);
                     string result = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
@@ -310,7 +310,7 @@ namespace Task1
                 using (var client = new HttpClient())
                 {
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync("http://127.0.0.1:8000/update_personsbyname", content);
+                    var response = await client.PostAsync(Program.BASE_URL+"/update_personsbyname", content);
                     response.EnsureSuccessStatusCode();
 
                     string result = await response.Content.ReadAsStringAsync();
@@ -352,7 +352,7 @@ namespace Task1
 
                 try
                 {
-                    var response = await client.PostAsync("http://127.0.0.1:8000/update_database", form);
+                    var response = await client.PostAsync(Program.BASE_URL+"/update_database", form);
                     string result = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)

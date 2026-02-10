@@ -19,7 +19,7 @@ namespace Task1
 {
     public partial class EDITFOLDER : Form
     {
-        string imageBasePath = @"C:\Users\Dogesh\Desktop\PHOTO_SERVER"; // 👈 jahan images actually stored hain
+         // 👈 jahan images actually stored hain
 
         string x_person = "";
         string x_location = "";
@@ -54,7 +54,7 @@ namespace Task1
                 string fulpath = imgPath;
                 if (!Path.IsPathRooted(fulpath))
                 {
-                    fulpath = Path.Combine(imageBasePath, imgPath);
+                    fulpath = Path.Combine(Program.imageBasePath, imgPath);
                 }
 
                 if (System.IO.File.Exists(imgPath))
@@ -315,7 +315,7 @@ private async Task AutoUploadAllAsync(List<string> imagesToUpload)
 
                 using (HttpClient client = new HttpClient())
                 {
-                    string apiUrl = $"http://127.0.0.1:8000/get_metadata_and_detail?filename={filename}";
+                    string apiUrl = $"{Program.BASE_URL}/get_metadata_and_detail?filename={filename}";
                     var response = await client.GetAsync(apiUrl);
 
                     if (response.IsSuccessStatusCode)

@@ -229,6 +229,7 @@
             Name = "SEARCH";
             Text = "SEARCH";
             WindowState = FormWindowState.Maximized;
+            Load += SEARCH_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);

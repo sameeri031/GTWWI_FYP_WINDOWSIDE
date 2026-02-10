@@ -13,7 +13,7 @@ namespace Task1
 {
     public partial class SHARING : Form
     {
-        string imageBasePath = @"C:\Users\Dogesh\Desktop\PHOTO_SERVER"; // 👈 jahan images actually stored hain
+         // 👈 jahan images actually stored hain
 
         List<string> selectedImages = new List<string>();
         public SHARING(List<string> selectedImages)
@@ -44,7 +44,7 @@ namespace Task1
                 pb.Tag = fulpath;
                 if (!Path.IsPathRooted(fulpath))
                 {
-                    fulpath = Path.Combine(imageBasePath, imgPath);
+                    fulpath = Path.Combine(Program.imageBasePath, imgPath);
                 }
 
                 if (File.Exists(imgPath))

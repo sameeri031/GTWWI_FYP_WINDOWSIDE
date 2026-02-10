@@ -46,7 +46,7 @@ namespace Task1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(Program.connectionString))
                 {
                     await conn.OpenAsync();
 
@@ -190,7 +190,7 @@ namespace Task1
                         string title = Path.GetFileNameWithoutExtension(imgpath);
                         form.Add(new StringContent(title), "title");
 
-                        var response = await client.PostAsync("http://127.0.0.1:8000/DUPLICATE", form);
+                        var response = await client.PostAsync(Program.BASE_URL+"/DUPLICATE", form);
                         var jsonString = await response.Content.ReadAsStringAsync();
                         dynamic result = JsonConvert.DeserializeObject(jsonString);
                         DUP = result.duplicate;
@@ -275,7 +275,7 @@ namespace Task1
                         string metadataJson = JsonConvert.SerializeObject(metadata);
                         form.Add(new StringContent(metadataJson, Encoding.UTF8, "application/json"), "metadata");
 
-                        var response = await client.PostAsync("http://127.0.0.1:8000/upload_photo", form);
+                        var response = await client.PostAsync(Program.BASE_URL+"/upload_photo", form);
                         string serverResponse = await response.Content.ReadAsStringAsync();
 
                         if (response.IsSuccessStatusCode)
@@ -329,7 +329,7 @@ namespace Task1
         public async Task<List<(int pid, string name, int? imageId, string? imagePath)>> GetPersonsWithSampleImage(string personName)
         {
             var list = new List<(int, string, int?, string?)>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 await conn.OpenAsync();
                 string sql = @"
@@ -581,7 +581,7 @@ ORDER BY p.pid;
                     form.Add(imageContent, "file", Path.GetFileName(imagePath));
 
                     // FastAPI endpoint
-                    var response = await client.PostAsync("http://127.0.0.1:8000/identify", form);
+                    var response = await client.PostAsync(Program.BASE_URL+"/identify", form);
                     response.EnsureSuccessStatusCode();
 
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -627,7 +627,7 @@ ORDER BY p.pid;
                 using (var client = new HttpClient())
                 {
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync("http://127.0.0.1:8000/update_detected_person", content);
+                    var response = await client.PostAsync(Program.BASE_URL+"/update_detected_person", content);
                     response.EnsureSuccessStatusCode();
 
                     string result = await response.Content.ReadAsStringAsync();
@@ -686,10 +686,9 @@ ORDER BY p.pid;
             await SaveImageData(title, date, path, persons, locations, events, personPidMap);
         }
 
-        string connectionString = "Server=.;Database=GEO PHOTO TAGGING;User Id=sa;Password=123;TrustServerCertificate=True;";
         public async Task SaveImageData(string title, string date, string path, string persons, string locations, string events, Dictionary<string, int> personPidMap = null)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 await conn.OpenAsync();
                 SqlTransaction transaction = conn.BeginTransaction();
@@ -724,7 +723,7 @@ ORDER BY p.pid;
 
                         try
                         {
-                            var response = await client.PostAsync("http://127.0.0.1:8000/insert_photo_into_duptable", form);
+                            var response = await client.PostAsync(Program.BASE_URL+"/insert_photo_into_duptable", form);
                             string result = await response.Content.ReadAsStringAsync();
 
                             if (response.IsSuccessStatusCode) { }

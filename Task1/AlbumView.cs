@@ -17,9 +17,8 @@ namespace Task1
     {
         private string personName;
         private List<string> photos;
-        string imageBasePath = @"C:\Users\Dogesh\Desktop\PHOTO_SERVER"; // 👈 jahan images actually stored hain
-        string connectionString = "Server=.;Database=GEO PHOTO TAGGING;User Id=sa;Password=123;TrustServerCertificate=True;";
-
+     // 👈 jahan images actually stored hain
+      
 
         public AlbumView(string personName, List<string> photos)
         {
@@ -55,7 +54,7 @@ namespace Task1
                 string fulpath = imgUrl;
                 if (!Path.IsPathRooted(fulpath))
                 {
-                    fulpath = Path.Combine(imageBasePath, imgUrl);
+                    fulpath = Path.Combine(Program.imageBasePath, imgUrl);
                 }
 
                 if (File.Exists(imgUrl))
@@ -219,7 +218,7 @@ namespace Task1
                 string fulpath = imgUrl;
                 if (!Path.IsPathRooted(fulpath))
                 {
-                    fulpath = Path.Combine(imageBasePath, imgUrl);
+                    fulpath = Path.Combine(Program.imageBasePath, imgUrl);
                 }
 
                 if (File.Exists(imgUrl))
@@ -306,7 +305,7 @@ namespace Task1
             var formattedPaths = string.Join(",", photos.Select((p, i) => "@p" + i));
             sql = string.Format(sql, formattedPaths);
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 await conn.OpenAsync();
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -368,7 +367,7 @@ namespace Task1
 
                         // Path check karein
                         if (!Path.IsPathRooted(firstImagePath))
-                            firstImagePath = Path.Combine(imageBasePath, firstImagePath);
+                            firstImagePath = Path.Combine(Program.imageBasePath, firstImagePath);
 
                         if (File.Exists(firstImagePath))
                         {

@@ -18,9 +18,7 @@ namespace Task1
 
     public partial class ADVANCE_SEARCH : Form
     {
-        string connectionString = "Server=.;Database=GEO PHOTO TAGGING;User Id=sa;Password=123;TrustServerCertificate=True;";
-
-        private List<(string Url, dynamic Meta)> matchedMetadata = new List<(string, dynamic)>();
+         private List<(string Url, dynamic Meta)> matchedMetadata = new List<(string, dynamic)>();
         public List<string> AllImages;
         public Dictionary<string, dynamic> MetadataCache;
         string baseUrl = "http://127.0.0.1:8000/photos/";
@@ -67,7 +65,7 @@ namespace Task1
             comboBox2.Items.Clear();
             allPersonItems.Clear();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 string sql = @"
         SELECT p.pid, p.name, MIN(i.path) as sample_path
@@ -298,7 +296,7 @@ namespace Task1
             DateTime toDate = dateTimePicker2.Value.Date;
 
             // Build SQL query
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 StringBuilder sql = new StringBuilder();
 

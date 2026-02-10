@@ -16,10 +16,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Task1
 {
     public partial class ACCOUNT_ACCESS : Form
-    {
-        string imageBasePath = @"C:\Users\Dogesh\Desktop\PHOTO_SERVER"; // 👈 jahan images actually stored hain
-        string cs = "Password=123;\r\nPersist Security Info=True;\r\nUser ID=sa;\r\nInitial Catalog=GEO PHOTO TAGGING;\r\nData Source=.";
-
+    { // 👈 jahan images actually stored hain
+       
         List<string> allAccount = new List<string>();
         List<string> selectedImages = new List<string>();
         public ACCOUNT_ACCESS(List<string> selectedImages)
@@ -70,7 +68,7 @@ namespace Task1
                 pb.Tag = fulpath;
                 if (!Path.IsPathRooted(fulpath))
                 {
-                    fulpath = Path.Combine(imageBasePath, imgPath);
+                    fulpath = Path.Combine(Program.imageBasePath, imgPath);
                 }
 
                 if (File.Exists(imgPath))
@@ -117,7 +115,7 @@ namespace Task1
             try
             {
 
-                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlConnection con = new SqlConnection(Program.connectionString))
                 {
                     string checkQuery = "SELECT Username FROM Account ";
                     SqlCommand cmd = new SqlCommand(checkQuery, con);
@@ -229,7 +227,7 @@ namespace Task1
                 }
                 int uid = 0;
 
-                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlConnection con = new SqlConnection(Program.connectionString))
                 {
                     string q = "SELECT UID FROM Account WHERE Username = @u";
                     SqlCommand cmd = new SqlCommand(q, con);
@@ -240,7 +238,7 @@ namespace Task1
                 }
                 List<int> imageIds = new List<int>();
 
-                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlConnection con = new SqlConnection(Program.connectionString))
                 {
                     con.Open();
 
@@ -257,7 +255,7 @@ namespace Task1
                         }
                     }
                 }
-                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlConnection con = new SqlConnection(Program.connectionString))
                 {
                     con.Open();
 

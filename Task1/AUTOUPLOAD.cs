@@ -17,7 +17,7 @@ namespace Task1
 
     public partial class AUTOUPLOAD : Form
     {
-        string baseurl = "http://192.168.1.114:8000";
+       
         bool DUP;
         List<string> selectedImages = new List<string>();
         public AUTOUPLOAD(List<string> selectedImages)
@@ -114,7 +114,7 @@ namespace Task1
                     string title = Path.GetFileNameWithoutExtension(imagePath);
                     form.Add(new StringContent(title), "title");
 
-                    var response = await client.PostAsync(baseurl + "/DUPLICATE", form);
+                    var response = await client.PostAsync(Program.BASE_URL + "/DUPLICATE", form);
                     var jsonString = await response.Content.ReadAsStringAsync();
                     dynamic result = JsonConvert.DeserializeObject(jsonString);
                     DUP = result.duplicate;
@@ -141,7 +141,7 @@ namespace Task1
 
                             try
                             {
-                                var responseupload = await client.PostAsync(baseurl + "/upload_photo_MODEL", formupload);
+                                var responseupload = await client.PostAsync(Program.BASE_URL + "/upload_photo_MODEL", formupload);
                                 responseupload.EnsureSuccessStatusCode();
                                 Console.WriteLine($"✅ Uploaded {Path.GetFileName(imagePath)}");
                             }

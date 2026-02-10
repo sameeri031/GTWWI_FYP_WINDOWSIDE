@@ -13,10 +13,8 @@ namespace Task1
 {
     public partial class MANAGEACCES : Form
     {
-        private int selectedUserId = -1;
-        string imageBasePath = @"C:\Users\Dogesh\Desktop\PHOTO_SERVER"; // 👈 jahan images actually stored hain
-        string cs = "Password=123;\r\nPersist Security Info=True;\r\nUser ID=sa;\r\nInitial Catalog=GEO PHOTO TAGGING;\r\nData Source=.";
-
+        private int selectedUserId = -1;// 👈 jahan images actually stored hain
+      
         List<string> selectedImages = new List<string>();
         public MANAGEACCES()
         {
@@ -68,7 +66,7 @@ namespace Task1
                 pb.Tag = fulpath;
                 if (!Path.IsPathRooted(fulpath))
                 {
-                    fulpath = Path.Combine(imageBasePath, imgPath);
+                    fulpath = Path.Combine(Program.imageBasePath, imgPath);
                 }
 
                 if (File.Exists(imgPath))
@@ -115,7 +113,7 @@ namespace Task1
             try
             {
 
-                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlConnection con = new SqlConnection(Program.connectionString))
                 {
                     string checkQuery = "SELECT Username FROM Account ";
                     SqlCommand cmd = new SqlCommand(checkQuery, con);
@@ -152,7 +150,7 @@ namespace Task1
         {
             string username = comboBox1.SelectedItem.ToString();
 
-            using (SqlConnection con = new SqlConnection(cs))
+            using (SqlConnection con = new SqlConnection(Program.connectionString))
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand(
@@ -170,7 +168,7 @@ namespace Task1
             flowLayoutPanel1.Controls.Clear();
             selectedImages.Clear();
 
-            using (SqlConnection con = new SqlConnection(cs))
+            using (SqlConnection con = new SqlConnection(Program.connectionString))
             {
                 string query = @"
             SELECT i.ImageID, i.path
@@ -206,7 +204,7 @@ namespace Task1
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
             pb.Tag = imageId;   // 🔥 IMPORTANT
 
-            string fullPath = Path.Combine(imageBasePath, imgPath);
+            string fullPath = Path.Combine(Program.imageBasePath, imgPath);
             if (File.Exists(fullPath))
                 pb.Image = Image.FromFile(fullPath);
 
@@ -222,7 +220,7 @@ namespace Task1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection(cs))
+            using (SqlConnection con = new SqlConnection(Program.connectionString))
             {
                 con.Open();
 

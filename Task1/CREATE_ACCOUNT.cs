@@ -19,7 +19,6 @@ namespace Task1
         {
             InitializeComponent();
         }
-        string cs = "Server=.;Database=GEO PHOTO TAGGING;User Id=sa;Password=123;TrustServerCertificate=True;";
         private void button2_Click(object sender, EventArgs e)
         {
             if (textBox1.Text != textBox2.Text)
@@ -68,7 +67,7 @@ namespace Task1
             try
             {
 
-                using (SqlConnection con = new SqlConnection(cs))
+                using (SqlConnection con = new SqlConnection(Program.connectionString))
                 {
                     string checkQuery = "SELECT COUNT(*) FROM Account WHERE Username = @name OR Email = @email";
                     SqlCommand checkCmd = new SqlCommand(checkQuery, con);
@@ -110,7 +109,7 @@ namespace Task1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MANAGEACCES M=new MANAGEACCES();
+            MANAGEACCES M = new MANAGEACCES();
             M.Show();
         }
     }

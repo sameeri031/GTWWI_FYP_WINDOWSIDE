@@ -335,6 +335,7 @@
             Name = "ALBUM";
             Text = "people";
             WindowState = FormWindowState.Maximized;
+            Load += ALBUM_Load_1;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             groupBox1.ResumeLayout(false);

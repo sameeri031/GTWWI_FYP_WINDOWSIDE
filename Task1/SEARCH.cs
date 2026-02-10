@@ -15,7 +15,6 @@ namespace Task1
 {
     public partial class SEARCH : Form
     {
-        string connectionString = "Server=.;Database=GEO PHOTO TAGGING;User Id=sa;Password=123;TrustServerCertificate=True;";
         private List<SearchResult> matchedMetadata = new List<SearchResult>();
 
         private System.Timers.Timer searchDelayTimer;
@@ -53,7 +52,7 @@ namespace Task1
             matchedMetadata.Clear();
             flowLayoutPanel1.Controls.Clear();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 // SQL query jo saare linked names ko join karke lata hai
                 string sql = @"
@@ -258,6 +257,11 @@ namespace Task1
 
 
 
+
+        }
+
+        private void SEARCH_Load(object sender, EventArgs e)
+        {
 
         }
     }

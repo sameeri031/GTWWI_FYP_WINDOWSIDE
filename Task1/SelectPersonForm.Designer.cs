@@ -37,7 +37,7 @@
             ClientSize = new Size(961, 450);
             Name = "SelectPersonForm";
             Text = "SelectPersonForm";
-         //   Load += SelectPersonForm_Load;
+            Load += SelectPersonForm_Load;
             ResumeLayout(false);
         }
 

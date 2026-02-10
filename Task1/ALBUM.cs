@@ -29,9 +29,7 @@ namespace Task1
 {
 
     public partial class ALBUM : Form
-    {
-        string connectionString = "Server=.;Database=GEO PHOTO TAGGING;User Id=sa;Password=123;TrustServerCertificate=True;";
-        string imageBasePath = @"C:\Users\Dogesh\Desktop\PHOTO_SERVER"; // 👈 jahan images actually stored hain
+    { // 👈 jahan images actually stored hain
 
         private bool selectionMode = false;
         private Panel selectedPanel = null;
@@ -79,7 +77,7 @@ namespace Task1
         {
             var grouped = new Dictionary<string, List<string>>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 await conn.OpenAsync();
                 string sql = "";
@@ -231,7 +229,7 @@ namespace Task1
                 if (!string.IsNullOrEmpty(fullPath))
                 {
                     if (!Path.IsPathRooted(fullPath))
-                        fullPath = Path.Combine(imageBasePath, coverUrl);
+                        fullPath = Path.Combine(Program.imageBasePath, coverUrl);
 
                     if (File.Exists(fullPath))
                     {
@@ -459,7 +457,7 @@ namespace Task1
 
             var grouped = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(Program.connectionString))
             {
                 await conn.OpenAsync();
                 string sql = "";
@@ -527,7 +525,7 @@ namespace Task1
 
         public async Task<List<string>> GetDeletedPhotosFromServer()
         {
-            string url = "http://127.0.0.1:8000/deleted_photos";
+            string url = Program.BASE_URL+"/deleted_photos";
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -540,7 +538,7 @@ namespace Task1
         }
         public async Task<List<string>> GetChangedPhotosFromServer()
         {
-            string url = "http://127.0.0.1:8000/changed_photos"; // apna server base url
+            string url = Program.BASE_URL+"/changed_photos"; // apna server base url
             using (HttpClient client = new HttpClient())
             {
                 var response = await client.GetStringAsync(url);
@@ -550,7 +548,7 @@ namespace Task1
 
         public async Task ClearDeletedPhotosFromServer()
         {
-            string url = "http://127.0.0.1:8000/clear_deleted_photos";
+            string url = Program.BASE_URL+"/clear_deleted_photos";
             using (HttpClient client = new HttpClient())
             {
                 await client.PostAsync(url, null);
@@ -560,7 +558,7 @@ namespace Task1
 
         public async Task ClearChangedPhotosFromServer()
         {
-            string url = "http://127.0.0.1:8000/clear_changed_photos";
+            string url = Program.BASE_URL+"/clear_changed_photos";
             using (HttpClient client = new HttpClient())
             {
 
@@ -639,6 +637,11 @@ namespace Task1
             }
             var f = new ACCOUNT_ACCESS(selectedImages);
             f.Show();
+        }
+
+        private void ALBUM_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
     //private async Task LoadAlbumsAsync(string category, Func<dynamic, string> getTagFunc)

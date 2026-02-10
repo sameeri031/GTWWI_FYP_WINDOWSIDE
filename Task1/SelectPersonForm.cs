@@ -162,5 +162,10 @@ namespace Task1
             this.Controls.Add(okBtn);
             this.Controls.Add(cancelBtn);
         }
+
+        private void SelectPersonForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
